@@ -1,7 +1,7 @@
 {
-  "name": "question_b",
+  "name": "question_c",
   "version": "1.0.0",
-  "description": "MyDeOS question B",
+  "description": "MyDeOS question C",
   "main": "index.js",
   "scripts": {
     "test": "jest",

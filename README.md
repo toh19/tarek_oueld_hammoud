@@ -1,5 +1,5 @@
 # MyDeOS Technical Assessment
 
 - [x] Question A
-- [ ] Question B
+- [x] Question B
 - [ ] Question C
