@@ -4,7 +4,8 @@
   "description": "MyDeOS question A",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "toh19",
