@@ -1,7 +1,6 @@
 # LRU Cache
 
-This TypeScript library provides a lightweight, dead simple implementation of a Geo Distributed Least Recently Used (LRU) Cache with time expiration. 
-
+This TypeScript library provides a lightweight, dead simple implementation of a Geo Distributed Least Recently Used (LRU) Cache with time expiration (2 implementations: one with redis and one without).
 ## Usage
 
 Example:
