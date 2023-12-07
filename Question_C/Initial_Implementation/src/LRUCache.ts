@@ -1,30 +1,26 @@
-export class LRUCacheNode {
+class LRUCacheNode {
   key: string;
   value: any;
   expiry: number;
-  next: LRUCacheNode | null;
-  prev: LRUCacheNode | null;
+  next: LRUCacheNode | null = null;
+  prev: LRUCacheNode | null = null;
 
   constructor(key: string, value: any, ttl: number) {
     this.key = key;
     this.value = value;
     this.expiry = Date.now() + ttl;
-    this.next = null;
-    this.prev = null;
   }
 }
 
 export class LRUCache {
   private capacity: number;
   private cache: Map<string, LRUCacheNode>;
-  private head: LRUCacheNode | null;
-  private tail: LRUCacheNode | null;
+  private head: LRUCacheNode | null = null;
+  private tail: LRUCacheNode | null = null;
 
   constructor(capacity: number) {
     this.capacity = capacity;
     this.cache = new Map();
-    this.head = null;
-    this.tail = null;
   }
 
   get(key: string): any {
@@ -40,24 +36,29 @@ export class LRUCache {
 
   put(key: string, value: any, ttl: number): void {
     let node = this.cache.get(key);
-    if (!node) {
-      if (this.cache.size === this.capacity) {
-        this.removeLRUNode();
-      }
-      node = new LRUCacheNode(key, value, ttl);
-      this.cache.set(key, node);
-    } else {
+    if (node) {
       node.value = value;
       node.expiry = Date.now() + ttl;
       this.moveToFront(node);
+      return;
     }
+
+    if (this.cache.size === this.capacity) {
+      this.removeLRUNode();
+    }
+
+    const newNode = new LRUCacheNode(key, value, ttl);
+    this.cache.set(key, newNode);
+    this.moveToFront(newNode);
   }
 
   private removeNode(node: LRUCacheNode): void {
-    if (node === this.head) this.head = node.next;
-    if (node === this.tail) this.tail = node.prev;
     if (node.prev) node.prev.next = node.next;
     if (node.next) node.next.prev = node.prev;
+
+    if (node === this.head) this.head = node.next;
+    if (node === this.tail) this.tail = node.prev;
+
     this.cache.delete(node.key);
   }
 
@@ -69,13 +70,21 @@ export class LRUCache {
 
   private moveToFront(node: LRUCacheNode): void {
     if (node === this.head) return;
-    if (node === this.tail) this.tail = node.prev;
+
     if (node.prev) node.prev.next = node.next;
     if (node.next) node.next.prev = node.prev;
-    node.prev = null;
+
     node.next = this.head;
-    if (this.head) this.head.prev = node;
+    node.prev = null;
+
+    if (this.head) {
+      this.head.prev = node;
+    }
+
     this.head = node;
-    if (!this.tail) this.tail = node;
+
+    if (!this.tail) {
+      this.tail = node;
+    }
   }
 }
