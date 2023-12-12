@@ -5,8 +5,7 @@ This TypeScript library provides a lightweight, dead simple implementation of a 
 
 Example:
 
-```
-// typescript
+```typescript
 const cache = new LRUCache(3);
 cache.put('key1', 'value1', 10) // 10 seconds TTL
     .then(() => cache.get('key1'))
